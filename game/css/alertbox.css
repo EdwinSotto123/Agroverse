@@ -1,0 +1,10 @@
+.alert {
+    position: fixed;
+    top: 150px;
+    padding: 20px;
+    background-color: #2d5a27; /* Farm Green */
+    color: white;
+    border: solid #4a8c3a;
+    margin-left: 50%;
+    transform: translate(-50%,0)
+}

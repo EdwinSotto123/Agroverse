@@ -1,0 +1,58 @@
+[build]
+  publish = "dist"
+  command = "npm run build"
+
+# Configurar redirects para el juego - servir archivos estáticos primero
+[[redirects]]
+  from = "/game/main.html"
+  to = "/game/main.html"
+  status = 200
+
+[[redirects]]
+  from = "/game/*"
+  to = "/game/:splat"
+  status = 200
+
+# Configurar SPA fallback para React (excepto rutas del juego)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  conditions = {Path = "!=/game/*"}
+
+# Headers para archivos del juego
+[[headers]]
+  for = "/game/main.html"
+  [headers.values]
+    Content-Type = "text/html; charset=UTF-8"
+    X-Frame-Options = "SAMEORIGIN"
+
+[[headers]]
+  for = "/game/**/*.js"
+  [headers.values]
+    Content-Type = "application/javascript; charset=UTF-8"
+
+[[headers]]
+  for = "/game/**/*.css"
+  [headers.values]
+    Content-Type = "text/css; charset=UTF-8"
+
+[[headers]]
+  for = "/game/**/*.png"
+  [headers.values]
+    Content-Type = "image/png"
+
+[[headers]]
+  for = "/game/**/*.jpg"
+  [headers.values]
+    Content-Type = "image/jpeg"
+
+[[headers]]
+  for = "/game/**/*.mp3"
+  [headers.values]
+    Content-Type = "audio/mpeg"
+
+[[headers]]
+  for = "/game/**/*.mp4"
+  [headers.values]
+    Content-Type = "video/mp4"

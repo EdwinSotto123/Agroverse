@@ -1,0 +1,332 @@
+/* AgroVerse Gaming Agriculture Design System */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Orbitron:wght@400;700&family=Courier+Prime:wght@400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Advanced Gaming Agriculture Color Palette */
+    --background: 13 11% 10%; /* Deep Space Blue */
+    --foreground: 0 0% 98%;
+
+    --card: 13 15% 15%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 13 20% 12%;
+    --popover-foreground: 0 0% 98%;
+
+    /* Primary: Deep Space Blue */
+    --primary: 210 100% 15%;
+    --primary-foreground: 0 0% 98%;
+
+    /* Secondary: Neon Green */
+    --secondary: 120 100% 50%;
+    --secondary-foreground: 210 100% 15%;
+
+    /* Accent: Vibrant Orange */
+    --accent: 25 100% 60%;
+    --accent-foreground: 0 0% 98%;
+
+    /* Earth: Rich Brown */
+    --earth: 30 65% 35%;
+    --earth-foreground: 0 0% 98%;
+
+    /* Highlight: Golden Yellow */
+    --highlight: 48 100% 60%;
+    --highlight-foreground: 210 100% 15%;
+
+    --muted: 13 10% 20%;
+    --muted-foreground: 0 0% 65%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 13 20% 25%;
+    --input: 13 15% 18%;
+    --ring: 120 100% 50%;
+
+    --radius: 12px; /* Modern gaming radius */
+
+    /* Glassmorphism Effects */
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 255, 136, 0.1);
+    
+    /* Neon Glow Effects */
+    --neon-green: 0 0 20px rgba(0, 255, 136, 0.5),
+                  0 0 40px rgba(0, 255, 136, 0.3),
+                  inset 0 0 20px rgba(0, 255, 136, 0.1);
+    
+    /* Pixel Art Effects */
+    --pixel-border: 120 100% 50%;
+    --pixel-shadow: 210 50% 20%;
+    --pixel-highlight: 48 100% 70%;
+    --pixel-dark: 210 80% 10%;
+    
+    /* Gaming Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(210 100% 15%), hsl(210 80% 10%));
+    --gradient-card: linear-gradient(135deg, hsl(13 15% 15%), hsl(13 20% 12%));
+    --gradient-glow: linear-gradient(90deg, hsl(120 100% 50%), hsl(48 100% 60%));
+    --gradient-glass: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    
+    /* Enhanced Shadows */
+    --shadow-pixel: 4px 4px 0px hsl(var(--pixel-shadow));
+    --shadow-card: 0 8px 32px rgba(0, 255, 136, 0.1);
+    --shadow-hero: 0 20px 40px rgba(0, 255, 136, 0.2);
+    
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-gaming: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+}
+
+/* Gaming UI Base Styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    image-rendering: pixelated; /* Pixel-perfect images */
+  }
+
+  .font-pixel {
+    font-family: 'Orbitron', 'Press Start 2P', cursive;
+    line-height: 1.6;
+  }
+
+  .font-retro {
+    font-family: 'Orbitron', monospace;
+  }
+
+  .font-code {
+    font-family: 'Inter', sans-serif;
+  }
+}
+
+/* Advanced Gaming Effects */
+@layer utilities {
+  .glass-panel {
+    background: var(--gradient-glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 16px;
+  }
+
+  .neon-glow {
+    box-shadow: var(--neon-green);
+  }
+
+  .neon-border {
+    border: 2px solid hsl(var(--secondary));
+    box-shadow: 0 0 10px hsl(var(--secondary));
+  }
+
+  .gaming-gradient {
+    background: var(--gradient-glow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pixel-float {
+    animation: pixelFloat 3s ease-in-out infinite;
+  }
+
+  .hologram-effect {
+    background: linear-gradient(45deg, transparent 30%, rgba(0, 255, 136, 0.1) 50%, transparent 70%);
+    background-size: 200% 200%;
+    animation: hologramShift 2s linear infinite;
+  }
+}
+
+/* Advanced Animations */
+@layer utilities {
+  @keyframes pixelFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  @keyframes hologramShift {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 200%; }
+  }
+
+  @keyframes neonPulse {
+    0%, 100% { 
+      box-shadow: var(--neon-green);
+      border-color: hsl(var(--secondary));
+    }
+    50% { 
+      box-shadow: 0 0 30px rgba(0, 255, 136, 0.8),
+                  0 0 60px rgba(0, 255, 136, 0.6),
+                  inset 0 0 30px rgba(0, 255, 136, 0.2);
+      border-color: hsl(var(--highlight));
+    }
+  }
+
+  @keyframes matrixRain {
+    0% { transform: translateY(-100vh); }
+    100% { transform: translateY(100vh); }
+  }
+
+  .animate-neon-pulse {
+    animation: neonPulse 2s ease-in-out infinite;
+  }
+
+  .animate-matrix-rain {
+    animation: matrixRain 10s linear infinite;
+  }
+}
+
+/* Pixel Art Component Utilities */
+@layer utilities {
+  .pixel-panel {
+    background: var(--gradient-card);
+    border: 3px solid hsl(var(--pixel-border));
+    box-shadow: var(--shadow-card);
+  }
+
+  .pixel-effect {
+    box-shadow: var(--shadow-pixel);
+    border: 2px solid hsl(var(--pixel-highlight));
+  }
+
+  .hero-pixel {
+    box-shadow: var(--shadow-hero);
+    border: 4px solid hsl(var(--pixel-border));
+  }
+
+  .gradient-text {
+    background: var(--gradient-glow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .pixel-border {
+    border: 3px solid hsl(var(--secondary));
+    box-shadow: var(--shadow-pixel);
+  }
+
+  .pixel-bg {
+    background-image: 
+      repeating-linear-gradient(
+        90deg,
+        hsl(var(--primary)) 0px,
+        hsl(var(--primary)) 2px,
+        transparent 2px,
+        transparent 4px
+      ),
+      repeating-linear-gradient(
+        0deg,
+        hsl(var(--secondary)) 0px,
+        hsl(var(--secondary)) 2px,
+        transparent 2px,
+        transparent 4px
+      );
+    background-size: 20px 20px;
+    animation: pixelScroll 10s linear infinite;
+  }
+
+  .scroll-indicator {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-indicator::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-glow);
+    animation: progressScan 3s ease-in-out infinite;
+  }
+}
+
+/* Pixel Art Animations */
+@layer utilities {
+  @keyframes pixelScroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 20px 20px; }
+  }
+
+  @keyframes pixelBounce {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-2px, -2px); }
+    50% { transform: translate(2px, -4px); }
+    75% { transform: translate(-2px, -2px); }
+  }
+
+  @keyframes pixelPulse {
+    0%, 100% { 
+      border-color: hsl(var(--secondary));
+      box-shadow: var(--shadow-pixel);
+    }
+    50% { 
+      border-color: hsl(var(--highlight));
+      box-shadow: var(--shadow-pixel), 
+                  0 0 0 2px hsl(var(--highlight));
+    }
+  }
+
+  @keyframes pixelSlide {
+    0% { transform: translateX(-100px); }
+    100% { transform: translateX(0); }
+  }
+
+  @keyframes pixelGrow {
+    0% { 
+      transform: scale(0.8); 
+      border-width: 2px;
+    }
+    50% { 
+      transform: scale(1.1); 
+      border-width: 4px;
+    }
+    100% { 
+      transform: scale(1); 
+      border-width: 3px;
+    }
+  }
+
+  .animate-pixel-pulse {
+    animation: pixelPulse 1.5s ease-in-out infinite;
+  }
+
+  .animate-pixel-bounce {
+    animation: pixelBounce 2s ease-in-out infinite;
+  }
+
+  .animate-pixel-grow {
+    animation: pixelGrow 0.5s ease-out;
+  }
+
+  .hover-pixel {
+    transition: all 0.1s ease-out;
+  }
+
+  .hover-pixel:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-pixel), 
+                4px 4px 0px hsl(var(--pixel-dark));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}

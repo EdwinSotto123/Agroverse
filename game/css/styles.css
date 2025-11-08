@@ -1,0 +1,143 @@
+body {
+	background-color: #9bd4c3;
+	margin: 0;
+	-webkit-user-select: none;
+	user-select: none; /* Disable text selection */
+	-webkit-user-drag: none; /* Disable dragging in WebKit browsers */
+	-moz-user-select: none; /* Disable text selection in Firefox */
+	-ms-user-select: none; /* Disable text selection in Internet Explorer/Edge */
+	-webkit-touch-callout: none; /* Disable the callout that appears when long-pressing a link */
+}
+
+#map-viewport {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 60px; /* leave space for toolbar */
+    /* Allow overflow for cartels and tall elements, but hide scrollbars */
+    overflow: hidden; /* Keep hidden for scrollbars but allow children to overflow */
+    /* Dark green background for areas outside map */
+    background-color: #1a3d15;
+    
+    /* Show grab cursor to indicate draggable area */
+    cursor: grab;
+    
+    /* Disable smooth scrolling to prevent conflicts with pan */
+    scroll-behavior: auto;
+    
+    /* Enable hardware acceleration */
+    will-change: scroll-position;
+    transform: translateZ(0); /* Force hardware layer */
+    
+    /* Fully hide scrollbars across browsers */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+}
+
+/* Chrome/Safari/Edge */
+#map-viewport::-webkit-scrollbar { display: none; }
+
+/* Ensure map container allows UI elements to overflow */
+#map {
+    border-radius: 10px;
+    position: relative; /* Restore proper positioning for grid layout */
+    background: none; /* No background needed */
+    margin: 20px; /* Add margin so map doesn't touch viewport edges */
+    
+    /* Grid layout for squares */
+    display: block; /* Block container for rows */
+    
+    /* Allow UI elements like cartels to overflow */
+    overflow: visible !important;
+    
+    /* Create stacking context for proper z-index */
+    isolation: isolate;
+    line-height: 0;
+    font-size: 0;
+    
+    /* Corrected pseudo-isometric perspective - much more subtle */
+    transform: perspective(3000px) rotateX(5deg) rotateY(-1deg);
+    transform-origin: center center;
+    transform-style: preserve-3d;
+    
+    /* Hardware acceleration and containment - remove paint to allow overflow */
+    will-change: transform;
+    contain: layout style;
+    
+    /* Add subtle shadow for depth */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.map-row {
+    display: block;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    font-size: 0;
+}
+
+/* Removed expensive shimmer animation for performance */.txtHarvest {
+	color: #00ff6e;
+	font-size: 22px;
+	font-weight: 500;
+	border-radius: 50px;
+	padding: 15px 2px;
+	flex-grow: 1;
+}
+
+@keyframes resourceCollectedAnimation {
+	0% { transform: translateY(0); }
+	100% { transform: translateY(-30px); }
+}
+
+.resourceCollectedAnimation {
+	pointer-events: none;
+	animation: resourceCollectedAnimation 0.6s;
+}
+
+/* Crop nameplate styles */
+.crop-nameplate {
+	/* Ensure nameplate is above other elements */
+	z-index: 20 !important;
+	/* Prevent text selection on nameplate */
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	/* Ensure it's fully visible */
+	overflow: visible !important;
+	/* Better pointer events */
+	pointer-events: auto;
+}
+
+.crop-nameplate img {
+	/* Ensure cartel image loads smoothly */
+	image-rendering: pixelated;
+	image-rendering: -moz-crisp-edges;
+	image-rendering: crisp-edges;
+	/* Prevent image distortion */
+	object-fit: contain;
+}
+
+/* Ensure map container doesn't clip elements */
+#map {
+	overflow: visible !important;
+}
+
+/* Ensure squares don't clip their children */
+.square {
+	overflow: visible !important;
+	/* Ensure squares with nameplates have proper z-index */
+	position: relative;
+}
+
+.square[data-nameplate="true"] {
+	z-index: 10 !important;
+}
+
+/* Hide nameplate when game is in dialog mode */
+body.dialog-open .crop-nameplate {
+	display: none;
+}

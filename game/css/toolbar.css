@@ -1,0 +1,81 @@
+/* Vertical toolbar on the left */
+#toolbar ul {
+    margin: 0;
+    padding: 8px 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+    background-color: #2d5a27;
+    position: fixed;
+    left: 8px;
+    width: 210px;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    z-index: 5000;
+}
+
+.center-items {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+#toolbar li,
+#toolbar li div {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    min-width: 0;
+}
+
+#toolbar li .txt {
+    color: white;
+    padding: 2px;
+    flex-grow: 1;
+}
+
+#toolbar li .txtNumber {
+    color: white;
+    padding: 15px;
+}
+
+#toolbar img {
+    vertical-align: middle;
+    margin: 0 6px;
+}
+
+#toolbar li div:not(.dropup-content):hover {
+    background-color: #4a8c3a;
+}
+
+#toolbar li:not(.center-items):hover {
+    background-color: #4a8c3a;
+}
+
+#toolbar .dropup {
+    position: relative; /* anchor submenu positioning */
+}
+
+#toolbar .dropup-content {
+    display: none;
+    position: absolute;
+    background-color: #2d5a27;
+    min-width: 180px;
+    left: 100%; /* open right next to the hovered item, no gap */
+    top: 0;
+    z-index: 1;
+    border-radius: 6px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+}
+
+#toolbar .dropup:hover .dropup-content {
+    display: block;
+}
+
+/* Keep submenu visible when moving cursor between parent and submenu */
+#toolbar .dropup .dropup-content:hover {
+    display: block;
+}

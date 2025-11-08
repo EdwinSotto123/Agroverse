@@ -1,0 +1,6 @@
+# Redirects para el juego
+/game/main.html   /game/main.html   200
+/game/*           /game/:splat      200
+
+# Fallback para React SPA (excepto rutas del juego)
+/*                /index.html       200

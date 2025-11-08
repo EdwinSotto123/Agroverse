@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Simulator</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/square.css">
+    <link rel="stylesheet" href="css/toolbar.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link rel="stylesheet" href="css/alertbox.css">
+    <link rel="stylesheet" href="css/shop.css">
+    <link rel="stylesheet" href="css/notifications.css">
+    <link rel="stylesheet" href="css/player.css">
+    <link rel="icon" type="image/png" href="assets/image/icon/favicon.png" />
+    <script>
+        // ===== AGROVERSE SESSION MANAGER =====
+        // Recibe datos de sesión desde el wrapper React (Game.tsx)
+        window.AGROVERSE_SESSION = null;
+        
+        window.addEventListener('message', (event) => {
+            // Validar que el mensaje sea del tipo correcto
+            if (event.data && event.data.type === 'AGROVERSE_SESSION') {
+                console.log('[AgroVerse] Sesión recibida:', event.data);
+                
+                // Guardar sesión globalmente para usarla en el juego
+                window.AGROVERSE_SESSION = {
+                    user_id: event.data.user_id,
+                    usuario: event.data.usuario,
+                    token: event.data.token
+                };
+                
+                // Guardar también en localStorage del iframe
+                localStorage.setItem('agroverse_user_id', event.data.user_id);
+                localStorage.setItem('agroverse_usuario', event.data.usuario);
+                localStorage.setItem('agroverse_token', event.data.token);
+                
+                console.log('[AgroVerse] user_id disponible:', window.AGROVERSE_SESSION.user_id);
+            }
+        });
+        
+        // Helper function para obtener user_id en cualquier parte del juego
+        window.getAgroVerseUserId = function() {
+            return window.AGROVERSE_SESSION?.user_id || 
+                   parseInt(localStorage.getItem('agroverse_user_id')) || 
+                   null;
+        };
+    </script>
+</head>
+<body draggable="false">
+    <!-- Global Fetch Wrapper: Fix ngrok 403 errors -->
+    <script src="src/fetch-wrapper.js"></script>
+    
+    <!-- Scenario 1: Start Screen Overlay -->
+    <div id="start-screen" style="position:fixed;inset:0;z-index:10000;background:#000;">
+     <video id="intro-video" 
+         src="assets/video/watermarked-4b4d7620-1188-4e7e-a9f4-37386e36f42f (online-video-cutter.com).mp4"
+         autoplay muted loop playsinline
+         preload="auto"
+         style="position:absolute;inset:0;width:100vw;height:100vh;object-fit:contain;background:#000;pointer-events:none;"></video>
+    <!-- Scrim for readability -->
+        <div style="position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.1) 100%);"></div>
+    <!-- Invisible hotspots over the video (estimated positions) -->
+    <div id="start-hotspots" style="position:absolute;inset:0;z-index:10002;pointer-events:auto;"></div>
+        <!-- No visible buttons; we use transparent hotspots mapped over the video -->
+    </div>
+
+    <div id="menus"></div>
+
+    
+
+    <div class="alert" id="alertbox" style="display: none" onclick="style.display='none';"></div>
+
+    <nav id="toolbar">
+        <ul>
+            <li class="left-item" id="buttonSettings">
+                <img src="assets/image/icon/settings_icon.png" alt="Settings">
+                <span class="txt">Settings</span>
+            </li>
+            <li class="center-items">
+                <div class="dropup">
+                    <img src="assets/image/icon/crops_icon.png" alt="Crops icon">
+                    <span class="txt">Cultivo</span>
+                    <div id="dropup-crop" class="dropup-content"></div>
+                </div>
+                <div class="dropup">
+                    <img src="assets/image/icon/sheep_icon.png" alt="Animal icon">
+                    <span class="txt">Animal</span>
+                    <div id="dropup-animal" class="dropup-content"></div>
+                </div>
+                <div class="dropup" >
+                    <img src="assets/image/icon/fence_icon.png" alt="Fence icon">
+                    <span class="txt">Edificacion</span>
+                    <div id="dropup-fence" class="dropup-content"></div>
+                </div>
+                <div class="dropup" >
+                    <img src="assets/image/icon/water_icon.png" alt="Water icon">
+                    <span class="txt">Agua</span>
+                    <div id="dropup-water" class="dropup-content"></div>
+                </div>
+                <div class="dropup" >
+                    <img src="assets/image/icon/seed_icon.png" alt="Tools icon">
+                    <span class="txt">Tools</span>
+                    <div id="dropup-tools" class="dropup-content"></div>
+                </div>
+            </li>
+            <li class="right-item"><img src="assets/image/icon/shop_icon.png" alt="Right Icon"><span class="txt">Shop</span></li>
+        </ul>
+    </nav>
+
+        <script src="src/game_manager/game_lang.js"></script>
+        <!-- Configuración de servicios Cloud -->
+  <script src="config_services.js"></script>
+  
+  <script type="module" src="main.js"></script>
+        <script>
+            // ===== SISTEMA DE HOTSPOTS MEJORADO =====
+            const vid = document.getElementById('intro-video');
+            let hotspotsCreated = false;
+            
+            function positionHotspots() {
+                const hsContainer = document.getElementById('start-hotspots');
+                if (!hsContainer || !vid) {
+                    console.warn('[HOTSPOTS] Container o video no encontrado');
+                    return;
+                }
+                
+                // Clear existing
+                hsContainer.innerHTML = '';
+                const rect = vid.getBoundingClientRect();
+                
+                if (!rect.width || !rect.height) {
+                    console.warn('[HOTSPOTS] Video sin dimensiones, reintentando...');
+                    setTimeout(positionHotspots, 100);
+                    return;
+                }
+
+                // Estimated positions relative to the video frame
+                const layout = {
+                    centerX: 0.5,
+                    width: 0.35,   // 35% of video width
+                    height: 0.11,  // 11% of video height per button
+                    topStart: 0.58,// starting top at ~58% of video height
+                    vGap: 0.02     // 2% vertical gap between buttons
+                };
+
+                const buttons = [
+                    { id: 'hs-start', label: 'Iniciar', click: () => window.startScenario2 && window.startScenario2() },
+                    { id: 'hs-options', label: 'Opciones', click: () => window.openOptions && window.openOptions() },
+                    { id: 'hs-exit', label: 'Salir', click: () => window.exitScenario && window.exitScenario() }
+                ];
+
+                const debug = localStorage.getItem('hotspotDebug') === '1';
+                buttons.forEach((btn, i) => {
+                    const topPct = layout.topStart + i * (layout.height + layout.vGap);
+                    const left = rect.left + (layout.centerX - layout.width / 2) * rect.width;
+                    const top = rect.top + topPct * rect.height;
+                    const width = layout.width * rect.width;
+                    const height = layout.height * rect.height;
+
+                    const el = document.createElement('div');
+                    el.id = btn.id;
+                    el.setAttribute('role', 'button');
+                    el.setAttribute('aria-label', btn.label);
+                    el.style.position = 'absolute';
+                    el.style.left = left + 'px';
+                    el.style.top = top + 'px';
+                    el.style.width = width + 'px';
+                    el.style.height = height + 'px';
+                    el.style.cursor = 'pointer';
+                    el.style.pointerEvents = 'auto';
+                    el.style.background = 'rgba(255,255,255,0)'; // fully transparent
+                    if (debug) {
+                        el.style.outline = '2px dashed rgba(255,255,255,0.6)';
+                        el.style.background = 'rgba(255,255,255,0.08)';
+                    }
+                    el.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log('[HOTSPOT] Click en:', btn.label);
+                        btn.click();
+                    });
+                    hsContainer.appendChild(el);
+                });
+                
+                if (!hotspotsCreated) {
+                    console.log('[HOTSPOTS] Creados exitosamente');
+                    hotspotsCreated = true;
+                }
+            }
+            
+            // Múltiples eventos para asegurar que los hotspots se creen
+            if (vid) {
+                // 1. Cuando el video carga metadata
+                vid.addEventListener('loadedmetadata', () => {
+                    console.log('[INTRO VIDEO] Metadata cargada:', vid.videoWidth, 'x', vid.videoHeight);
+                    positionHotspots();
+                });
+                
+                // 2. Cuando el video puede reproducirse
+                vid.addEventListener('canplay', () => {
+                    console.log('[INTRO VIDEO] Puede reproducirse');
+                    if (!hotspotsCreated) positionHotspots();
+                });
+                
+                // 3. Al redimensionar ventana
+                window.addEventListener('resize', positionHotspots);
+                
+                // 4. Fallback: Intentar después de 500ms si no se crearon
+                setTimeout(() => {
+                    if (!hotspotsCreated) {
+                        console.log('[HOTSPOTS] Creación forzada por timeout');
+                        positionHotspots();
+                    }
+                }, 500);
+                
+                // 5. Fallback final: 1 segundo
+                setTimeout(() => {
+                    if (!hotspotsCreated) {
+                        console.log('[HOTSPOTS] Creación forzada (segundo intento)');
+                        positionHotspots();
+                    }
+                }, 1000);
+            } else {
+                console.error('[HOTSPOTS] Video element no encontrado!');
+            }
+        </script>
+        </script>
+</body>
+</html>

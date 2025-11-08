@@ -1,0 +1,3 @@
+# Excluir carpeta del juego del procesamiento de Vite
+game/
+public/game/

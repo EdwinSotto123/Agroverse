@@ -1,0 +1,40 @@
+/**
+ * PLAYER CHARACTER STYLES
+ * Asegura que el granjero sea visible en el mapa
+ */
+
+#farmer {
+    position: absolute !important;
+    pointer-events: none !important;
+    z-index: 1000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    /* Asegurar que no se apliquen transformaciones extrañas */
+    transform: none !important;
+    /* Evitar que filtros afecten */
+    filter: none !important;
+    /* Asegurar renderizado nítido */
+    image-rendering: pixelated;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+#farmer img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    /* Renderizado pixelado para sprites retro */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+    -ms-interpolation-mode: nearest-neighbor;
+}
+
+/* Placeholder cuando la imagen no carga */
+#farmer.placeholder {
+    background: radial-gradient(circle at 50% 40%, #ffd54f 35%, #f57f17 36%, #f57f17 60%, transparent 61%) !important;
+    border: 2px solid #2e7d32 !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.15) !important;
+}

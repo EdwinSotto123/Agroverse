@@ -1,0 +1,76 @@
+/**
+ * CROP NOTIFICATION ANIMATIONS
+ * Animaciones para mensajes del sistema de cultivos
+ */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+}
+
+/* Container para notificaciones múltiples */
+.crop-notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.crop-notification {
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  max-width: 350px;
+  animation: slideIn 0.3s ease-out;
+  pointer-events: auto;
+}
+
+.crop-notification.success {
+  background: #4a8c3a;
+  color: white;
+  border: 2px solid #6fb36a;
+}
+
+.crop-notification.error {
+  background: #c93a3a;
+  color: white;
+  border: 2px solid #ff6b6b;
+}
+
+.crop-notification.warning {
+  background: #d4a017;
+  color: white;
+  border: 2px solid #ffcc00;
+}
+
+.crop-notification.info {
+  background: #2d5a27;
+  color: white;
+  border: 2px solid #4a8c3a;
+}
+
+.crop-notification.closing {
+  animation: slideOut 0.3s ease-in;
+}
