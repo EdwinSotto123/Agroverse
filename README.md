@@ -444,18 +444,11 @@ MIT License - Ver [LICENSE](LICENSE)
 
 ## 🌟 Equipo
 
-Desarrollado para **Intelligent Planet Hackathon 2025** por estudiantes de ingeniería apasionados por democratizar la tecnología agrícola.
+Desarrollado para **Intelligent Planet Hackathon 2025** por estudiantes de ingeniería de sistmeas (UNI) apasionados por democratizar la tecnología agrícola.
 
 ---
 
-## 🔗 Links
 
-- 🌐 **Demo Live**: https://agroverse-demo.app
-- 📹 **Video Demo**: https://youtu.be/agroverse-demo
-- 📚 **Documentación**: https://docs.agroverse.app
-- 💻 **GitHub**: https://github.com/agroverse/platform
-
----
 
 <div align="center">
 
