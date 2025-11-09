@@ -11,8 +11,8 @@ import os
 app = Flask(__name__)
 CORS(app)  # Permite peticiones desde cualquier origen
 
-# API Key de Gemini (¡NUNCA expongas esto en el cliente!)
-GEMINI_API_KEY = 'AIzaSyDghPsslsrG66Lw2UCouCnROlBZ66GOb1c'
+# API Key de Gemini
+GEMINI_API_KEY = ''
 GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta'
 
 @app.route('/api/gemini/generate', methods=['POST'])
