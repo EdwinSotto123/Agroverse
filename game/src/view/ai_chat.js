@@ -847,8 +847,8 @@ function createAiChatWidget() {
 
 // -------- Gemini API integration helper --------
 // NOTE: The user provided an API key; embedding it in client-side code is insecure.
-const GEMINI_API_KEY = 'AIzaSyDghPsslsrG66Lw2UCouCnROlBZ66GOb1c';
-const GEMINI_MODEL = 'gemini-2.5-pro'; // ✅ Verificado con curl exitoso
+const GEMINI_API_KEY = '';
+const GEMINI_MODEL = 'gemini-2.5-pro';
 
 async function callGeminiModel(userMessage) {
   if (!GEMINI_API_KEY) throw new Error('No API key configured for DeepSeek');
